@@ -61,7 +61,7 @@
             {
                 return 0;
             }
-            var numbers = input.Split(',');
+            var numbers = input.Split('\n', ',');
             return numbers.Select(n => int.Parse(n, NumberStyles.Integer)).Sum();
         }
     }
