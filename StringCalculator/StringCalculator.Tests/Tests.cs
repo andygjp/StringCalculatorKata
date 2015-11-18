@@ -1,5 +1,6 @@
 ﻿namespace StringCalculator.Tests
 {
+    using System;
     using System.Globalization;
     using System.Linq;
     using FluentAssertions;
@@ -74,7 +75,14 @@
             {
                 return 0;
             }
-            var numbers = input.Split('\n', ',');
+
+            char separator = ',';
+            if (input.StartsWith("//") && input.Length > 2)
+            {
+                separator = input[2];
+                input = input.Substring(3);
+            }
+            var numbers = input.Split(new []{'\n', separator}, StringSplitOptions.RemoveEmptyEntries);
             return numbers.Select(n => int.Parse(n, NumberStyles.Integer)).Sum();
         }
     }
