@@ -6,7 +6,7 @@ namespace StringCalculator
 
     internal class NegativeNumberValidator : IValidate
     {
-        public void Validate(string[] numbers)
+        public void Validate(IEnumerable<string> numbers)
         {
             var negativeNumbers = GetNegativeNumbers(numbers);
             if (negativeNumbers.Any())
