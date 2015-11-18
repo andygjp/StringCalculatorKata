@@ -1,5 +1,6 @@
 ﻿namespace StringCalculator.Tests
 {
+    using System.Globalization;
     using FluentAssertions;
     using Xunit;
 
@@ -29,7 +30,11 @@
     {
         public int Add(string input)
         {
-            return 0;
+            if (input.Length == 0)
+            {
+                return 0;
+            }
+            return int.Parse(input, NumberStyles.Integer);
         }
     }
 }
