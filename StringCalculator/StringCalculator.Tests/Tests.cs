@@ -29,12 +29,14 @@
 
     public class When_I_supply_many_numbers
     {
-        [Fact]
-        public void It_should_return_zero()
+        [Theory]
+        [InlineData("1,2", 3)]
+        [InlineData("1,2,3,4", 10)]
+        public void It_should_return_zero(string input, int expected)
         {
             var sut = new StringCalculator();
-            int actual = sut.Add("1,2");
-            actual.Should().Be(3);
+            int actual = sut.Add(input);
+            actual.Should().Be(expected);
         }
     }
 
