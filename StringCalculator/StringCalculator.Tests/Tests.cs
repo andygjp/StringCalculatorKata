@@ -113,7 +113,7 @@
                 var message = negativeNumbers.Aggregate("negatives not allowed: ", (current, next) => $"{current}{next},").TrimEnd(',');
                 throw new ArgumentException(message);
             }
-            return numbers.Select(n => int.Parse(n, NumberStyles.Integer)).Sum();
+            return numbers.Select(n => int.Parse(n, NumberStyles.Integer)).Where(n => n <= 1000).Sum();
         }
     }
 }
