@@ -1,6 +1,7 @@
 ﻿namespace StringCalculator.Tests
 {
     using System.Globalization;
+    using System.Linq;
     using FluentAssertions;
     using Xunit;
 
@@ -33,7 +34,7 @@
         {
             var sut = new StringCalculator();
             int actual = sut.Add("1,2");
-            actual.Should().Be(1);
+            actual.Should().Be(3);
         }
     }
 
@@ -45,7 +46,8 @@
             {
                 return 0;
             }
-            return int.Parse(input, NumberStyles.Integer);
+            var numbers = input.Split(',');
+            return numbers.Select(n => int.Parse(n, NumberStyles.Integer)).Sum();
         }
     }
 }
