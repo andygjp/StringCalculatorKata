@@ -38,10 +38,31 @@ namespace StringCalculator
         }
     }
 
+    public class Parser
+    {
+        public string[] GetNumbers(string input)
+        {
+            char separator = ',';
+            if (input.StartsWith("//") && input.Length > 2)
+            {
+                separator = input[2];
+                input = input.Substring(3);
+            }
+            return Split(input, separator);
+        }
+
+        private static string[] Split(string input, char separator)
+        {
+            var numbers = input.Split(new[] {'\n', separator}, StringSplitOptions.RemoveEmptyEntries);
+            return numbers;
+        }
+    }
+
     public class StringCalculator
     {
         private readonly Adder _adder = new Adder(1000);
         private readonly Validator _validator = new Validator();
+        private readonly Parser _parser = new Parser();
 
         public int Add(string input)
         {
@@ -55,21 +76,9 @@ namespace StringCalculator
 
         private int AddCore(string input)
         {
-            var numbers = GetNumbers(input);
+            var numbers = _parser.GetNumbers(input);
             _validator.Validate(numbers);
             return _adder.Sum(numbers);
-        }
-
-        private static string[] GetNumbers(string input)
-        {
-            char separator = ',';
-            if (input.StartsWith("//") && input.Length > 2)
-            {
-                separator = input[2];
-                input = input.Substring(3);
-            }
-            var numbers = input.Split(new[] {'\n', separator}, StringSplitOptions.RemoveEmptyEntries);
-            return numbers;
         }
     }
 }
