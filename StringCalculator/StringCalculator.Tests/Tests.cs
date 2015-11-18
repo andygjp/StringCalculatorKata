@@ -14,6 +14,17 @@
         }
     }
 
+    public class When_I_supply_single_number
+    {
+        [Fact]
+        public void It_should_return_zero()
+        {
+            var sut = new StringCalculator();
+            int actual = sut.Add("1");
+            actual.Should().Be(1);
+        }
+    }
+
     public class StringCalculator
     {
         public int Add(string input)
