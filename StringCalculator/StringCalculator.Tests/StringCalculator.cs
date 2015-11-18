@@ -5,25 +5,43 @@ namespace StringCalculator
     using System.Globalization;
     using System.Linq;
 
+    internal interface IFilter
+    {
+        IEnumerable<int> Filter(IEnumerable<int> ns, int maxNumber);
+    }
+
+    internal class LessThanMaxNumberFilter : IFilter
+    {
+        private int _maxNumber;
+
+        public LessThanMaxNumberFilter(int maxNumber)
+        {
+            _maxNumber = maxNumber;
+        }
+
+        public IEnumerable<int> Filter(IEnumerable<int> ns, int maxNumber)
+        {
+            _maxNumber = maxNumber;
+            return ns.Where(n => n <= _maxNumber);
+        }
+    }
+
     internal class Adder
     {
         private readonly int _maxNumber;
+        private readonly LessThanMaxNumberFilter _filter;
 
         public Adder(int maxNumber)
         {
             _maxNumber = maxNumber;
+            _filter = new LessThanMaxNumberFilter(_maxNumber);
         }
 
         public int Sum(string[] numbers)
         {
             var ns = numbers.Select(ParseInteger);
-            ns = Filter(ns);
+            ns = _filter.Filter(ns, _maxNumber);
             return ns.Sum();
-        }
-
-        private IEnumerable<int> Filter(IEnumerable<int> ns)
-        {
-            return ns.Where(n => n <= _maxNumber);
         }
 
         private static int ParseInteger(string n)
