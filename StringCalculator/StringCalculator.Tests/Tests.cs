@@ -18,7 +18,7 @@
     {
         public int Add(string input)
         {
-            throw new System.NotImplementedException();
+            return 0;
         }
     }
 }
