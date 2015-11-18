@@ -95,7 +95,13 @@
                 separator = input[2];
                 input = input.Substring(3);
             }
-            var numbers = input.Split(new []{'\n', separator}, StringSplitOptions.RemoveEmptyEntries);
+            var numbers = input.Split(new[] { '\n', separator }, StringSplitOptions.RemoveEmptyEntries);
+            var negativeNumbers = numbers.Where(s => s.StartsWith("-")).ToList();
+            if (negativeNumbers.Any())
+            {
+                var message = negativeNumbers.Aggregate("negatives not allowed: ", (current, next) => $"{current}{next},").TrimEnd(',');
+                throw new ArgumentException(message);
+            }
             return numbers.Select(n => int.Parse(n, NumberStyles.Integer)).Sum();
         }
     }
