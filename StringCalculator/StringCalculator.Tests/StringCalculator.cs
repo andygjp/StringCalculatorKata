@@ -29,9 +29,9 @@ namespace StringCalculator
     {
         private readonly IFilter _filter;
 
-        public Adder(int maxNumber)
+        public Adder(IFilter filter)
         {
-            _filter = new LessThanMaxNumberFilter(maxNumber);
+            _filter = filter;
         }
 
         public int Sum(string[] numbers)
@@ -98,7 +98,7 @@ namespace StringCalculator
 
     public class StringCalculator
     {
-        private readonly Adder _adder = new Adder(1000);
+        private readonly Adder _adder = new Adder(new LessThanMaxNumberFilter(1000));
         private readonly IValidate _validator = new NegativeNumberValidator();
         private readonly Parser _parser = new Parser();
 
