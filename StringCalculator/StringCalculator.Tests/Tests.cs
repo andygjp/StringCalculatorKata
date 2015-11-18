@@ -67,6 +67,19 @@
         }
     }
 
+    public class When_I_supply_a_negative_numbers
+    {
+        [Theory]
+        [InlineData("-1", "negatives not allowed: -1")]
+        [InlineData("-1,2,-3,4", "negatives not allowed: -1,-3")]
+        public void It_should_return_zero(string input, string expectedMessage)
+        {
+            var sut = new StringCalculator();
+            Action call = () => sut.Add(input);
+            call.ShouldThrowExactly<ArgumentException>().WithMessage(expectedMessage);
+        }
+    }
+
     public class StringCalculator
     {
         public int Add(string input)
