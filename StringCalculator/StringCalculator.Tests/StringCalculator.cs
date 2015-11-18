@@ -1,6 +1,7 @@
 namespace StringCalculator
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
 
@@ -19,9 +20,28 @@ namespace StringCalculator
         }
     }
 
+    internal class Validator
+    {
+        public void Validate(string[] numbers)
+        {
+            var negativeNumbers = numbers.Where(s => s.StartsWith("-")).ToList();
+            if (negativeNumbers.Any())
+            {
+                var message = GetErrorMessage(negativeNumbers);
+                throw new ArgumentException(message);
+            }
+        }
+
+        private static string GetErrorMessage(IEnumerable<string> negativeNumbers)
+        {
+            return negativeNumbers.Aggregate("negatives not allowed: ", (current, next) => $"{current}{next},").TrimEnd(',');
+        }
+    }
+
     public class StringCalculator
     {
         private readonly Adder _adder = new Adder(1000);
+        private readonly Validator _validator = new Validator();
 
         public int Add(string input)
         {
@@ -36,7 +56,7 @@ namespace StringCalculator
         private int AddCore(string input)
         {
             var numbers = GetNumbers(input);
-            Validate(numbers);
+            _validator.Validate(numbers);
             return _adder.Sum(numbers);
         }
 
@@ -50,17 +70,6 @@ namespace StringCalculator
             }
             var numbers = input.Split(new[] {'\n', separator}, StringSplitOptions.RemoveEmptyEntries);
             return numbers;
-        }
-
-        private static void Validate(string[] numbers)
-        {
-            var negativeNumbers = numbers.Where(s => s.StartsWith("-")).ToList();
-            if (negativeNumbers.Any())
-            {
-                var message =
-                    negativeNumbers.Aggregate("negatives not allowed: ", (current, next) => $"{current}{next},").TrimEnd(',');
-                throw new ArgumentException(message);
-            }
         }
     }
 }
