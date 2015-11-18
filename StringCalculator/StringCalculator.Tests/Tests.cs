@@ -80,6 +80,17 @@
         }
     }
 
+    public class When_I_supply_large_numbers
+    {
+        [Fact]
+        public void It_should_ignore_numbers_greater_than_one_thousand()
+        {
+            var sut = new StringCalculator();
+            int actual = sut.Add("999,1000,1001");
+            actual.Should().Be(1999);
+        }
+    }
+
     public class StringCalculator
     {
         public int Add(string input)
