@@ -53,6 +53,19 @@
         }
     }
 
+    public class When_I_supply_many_numbers_using_a_custom_separator
+    {
+        [Theory]
+        [InlineData("//;\n1;2", 3)]
+        [InlineData("//+\n1+2+3+4", 10)]
+        public void It_should_return_zero(string input, int expected)
+        {
+            var sut = new StringCalculator();
+            int actual = sut.Add(input);
+            actual.Should().Be(expected);
+        }
+    }
+
     public class StringCalculator
     {
         public int Add(string input)
