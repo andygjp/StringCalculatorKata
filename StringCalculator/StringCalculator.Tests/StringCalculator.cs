@@ -4,8 +4,25 @@ namespace StringCalculator
     using System.Globalization;
     using System.Linq;
 
+    internal class Adder
+    {
+        private readonly int _maxNumber;
+
+        public Adder(int maxNumber)
+        {
+            _maxNumber = maxNumber;
+        }
+
+        public int Sum(string[] numbers)
+        {
+            return numbers.Select(n => int.Parse(n, NumberStyles.Integer)).Where(n => n <= _maxNumber).Sum();
+        }
+    }
+
     public class StringCalculator
     {
+        private readonly Adder _adder = new Adder(1000);
+
         public int Add(string input)
         {
             if (input.Length == 0)
@@ -16,11 +33,11 @@ namespace StringCalculator
             return AddCore(input);
         }
 
-        private static int AddCore(string input)
+        private int AddCore(string input)
         {
             var numbers = GetNumbers(input);
             Validate(numbers);
-            return Sum(numbers);
+            return _adder.Sum(numbers);
         }
 
         private static string[] GetNumbers(string input)
@@ -44,11 +61,6 @@ namespace StringCalculator
                     negativeNumbers.Aggregate("negatives not allowed: ", (current, next) => $"{current}{next},").TrimEnd(',');
                 throw new ArgumentException(message);
             }
-        }
-
-        private static int Sum(string[] numbers)
-        {
-            return numbers.Select(n => int.Parse(n, NumberStyles.Integer)).Where(n => n <= 1000).Sum();
         }
     }
 }
