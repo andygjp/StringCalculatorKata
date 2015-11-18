@@ -7,40 +7,37 @@ namespace StringCalculator
 
     internal interface IFilter
     {
-        IEnumerable<int> Filter(IEnumerable<int> ns, int maxNumber);
+        IEnumerable<int> Filter(IEnumerable<int> ns);
     }
 
     internal class LessThanMaxNumberFilter : IFilter
     {
-        private int _maxNumber;
+        private readonly int _maxNumber;
 
         public LessThanMaxNumberFilter(int maxNumber)
         {
             _maxNumber = maxNumber;
         }
 
-        public IEnumerable<int> Filter(IEnumerable<int> ns, int maxNumber)
+        public IEnumerable<int> Filter(IEnumerable<int> ns)
         {
-            _maxNumber = maxNumber;
             return ns.Where(n => n <= _maxNumber);
         }
     }
 
     internal class Adder
     {
-        private readonly int _maxNumber;
-        private readonly LessThanMaxNumberFilter _filter;
+        private readonly IFilter _filter;
 
         public Adder(int maxNumber)
         {
-            _maxNumber = maxNumber;
-            _filter = new LessThanMaxNumberFilter(_maxNumber);
+            _filter = new LessThanMaxNumberFilter(maxNumber);
         }
 
         public int Sum(string[] numbers)
         {
             var ns = numbers.Select(ParseInteger);
-            ns = _filter.Filter(ns, _maxNumber);
+            ns = _filter.Filter(ns);
             return ns.Sum();
         }
 
