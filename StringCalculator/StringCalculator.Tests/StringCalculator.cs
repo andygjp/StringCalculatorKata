@@ -16,7 +16,14 @@ namespace StringCalculator
 
         public int Sum(string[] numbers)
         {
-            return numbers.Select(ParseInteger).Where(n => n <= _maxNumber).Sum();
+            var ns = numbers.Select(ParseInteger);
+            ns = Filter(ns);
+            return ns.Sum();
+        }
+
+        private IEnumerable<int> Filter(IEnumerable<int> ns)
+        {
+            return ns.Where(n => n <= _maxNumber);
         }
 
         private static int ParseInteger(string n)
@@ -25,7 +32,12 @@ namespace StringCalculator
         }
     }
 
-    internal class Validator
+    internal interface IValidate
+    {
+        void Validate(string[] numbers);
+    }
+
+    internal class NegativeNumberValidator : IValidate
     {
         public void Validate(string[] numbers)
         {
@@ -49,7 +61,7 @@ namespace StringCalculator
         }
     }
 
-    public class Parser
+    internal class Parser
     {
         public string[] GetNumbers(string input)
         {
@@ -72,7 +84,7 @@ namespace StringCalculator
     public class StringCalculator
     {
         private readonly Adder _adder = new Adder(1000);
-        private readonly Validator _validator = new Validator();
+        private readonly IValidate _validator = new NegativeNumberValidator();
         private readonly Parser _parser = new Parser();
 
         public int Add(string input)
