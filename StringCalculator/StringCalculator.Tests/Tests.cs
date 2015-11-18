@@ -18,7 +18,7 @@
     public class When_I_supply_single_number
     {
         [Fact]
-        public void It_should_return_zero()
+        public void It_should_return_input()
         {
             var sut = new StringCalculator();
             int actual = sut.Add("1");
@@ -31,7 +31,7 @@
         [Theory]
         [InlineData("1,2", 3)]
         [InlineData("1,2,3,4", 10)]
-        public void It_should_return_zero(string input, int expected)
+        public void It_should_return_sum_of_input(string input, int expected)
         {
             var sut = new StringCalculator();
             int actual = sut.Add(input);
@@ -44,7 +44,7 @@
         [Theory]
         [InlineData("1\n2", 3)]
         [InlineData("1\n2,3,4", 10)]
-        public void It_should_return_zero(string input, int expected)
+        public void It_should_return_sum_of_input(string input, int expected)
         {
             var sut = new StringCalculator();
             int actual = sut.Add(input);
@@ -57,7 +57,7 @@
         [Theory]
         [InlineData("//;\n1;2", 3)]
         [InlineData("//+\n1+2+3+4", 10)]
-        public void It_should_return_zero(string input, int expected)
+        public void It_should_return_sum_of_input(string input, int expected)
         {
             var sut = new StringCalculator();
             int actual = sut.Add(input);
@@ -70,7 +70,7 @@
         [Theory]
         [InlineData("-1", "negatives not allowed: -1")]
         [InlineData("-1,2,-3,4", "negatives not allowed: -1,-3")]
-        public void It_should_return_zero(string input, string expectedMessage)
+        public void It_should_return_sum_of_input(string input, string expectedMessage)
         {
             var sut = new StringCalculator();
             Action call = () => sut.Add(input);
