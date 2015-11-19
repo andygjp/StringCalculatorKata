@@ -77,6 +77,7 @@
         [Theory]
         [InlineData("-1", "negatives not allowed: -1")]
         [InlineData("-3", "negatives not allowed: -3")]
+        [InlineData("-3,-1", "negatives not allowed: -3,-1")]
         public void It_should_throw_an_exception(string input, string expectedMessage)
         {
             Action call = () => new StringCalculator().Add(input);
