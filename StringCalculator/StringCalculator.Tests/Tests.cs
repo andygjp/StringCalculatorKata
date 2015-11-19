@@ -29,11 +29,16 @@
     {
         public int Add(string input)
         {
-            if (input.Length == 0)
+            if (IsInputBlank(input))
             {
-                return 0;
+                input = "0";
             }
             return int.Parse(input);
+        }
+
+        private static bool IsInputBlank(string input)
+        {
+            return input.Length == 0;
         }
     }
 }
