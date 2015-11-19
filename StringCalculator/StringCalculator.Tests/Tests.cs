@@ -32,7 +32,7 @@
         {
             var sut = new StringCalculator();
             int actual = sut.Add("1,2");
-            actual.Should().Be(1);
+            actual.Should().Be(3);
         }
     }
 
