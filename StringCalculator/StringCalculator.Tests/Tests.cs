@@ -94,7 +94,12 @@
 
         private static IEnumerable<string> Split(string input)
         {
-            return input.Split(new[] {',', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            return input.Split(GetSeparators(input), StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private static char[] GetSeparators(string input)
+        {
+            return new[] {',', '\n'};
         }
 
         private static string SanitiseInput(string input)
