@@ -76,6 +76,7 @@
     {
         [Theory]
         [InlineData("-1", "negatives not allowed: -1")]
+        [InlineData("-3", "negatives not allowed: -3")]
         public void It_should_throw_an_exception(string input, string expectedMessage)
         {
             Action call = () => new StringCalculator().Add(input);
@@ -93,8 +94,19 @@
 
         private static int Sum(string input)
         {
-            var parsed = Parse(input);
+            var parsed = Parse(input).ToList();
+            Validate(parsed);
             return parsed.Sum();
+        }
+
+        private static void Validate(IEnumerable<int> parsed)
+        {
+            var negative = parsed.FirstOrDefault(x => x < 0);
+            if (negative >= 0)
+            {
+                return;
+            }
+            throw new ArgumentException($"negatives not allowed: {negative}");
         }
 
         private static IEnumerable<int> Parse(string input)
