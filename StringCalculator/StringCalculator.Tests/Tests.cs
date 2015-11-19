@@ -94,7 +94,18 @@
 
         private static IEnumerable<string> Split(string input)
         {
-            return input.Split(GetSeparators(input), StringSplitOptions.RemoveEmptyEntries);
+            var separators = GetSeparators(input);
+            input = RemoveCustomSeparator(input);
+            return input.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private static string RemoveCustomSeparator(string input)
+        {
+            if (IsSeparatorSpecified(input))
+            {
+                input = input.Substring(3);
+            }
+            return input;
         }
 
         private static char[] GetSeparators(string input)
