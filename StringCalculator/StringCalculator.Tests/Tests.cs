@@ -102,12 +102,12 @@
 
         private static void Validate(IEnumerable<int> parsed)
         {
-            var negative = parsed.FirstOrDefault(x => x < 0);
-            if (negative >= 0)
+            var negative = parsed.Where(x => x < 0).ToList();
+            if (!negative.Any())
             {
                 return;
             }
-            throw new ArgumentException($"negatives not allowed: {negative}");
+            throw new ArgumentException($"negatives not allowed: {negative.First()}");
         }
 
         private static IEnumerable<int> Parse(string input)
