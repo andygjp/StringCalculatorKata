@@ -102,12 +102,23 @@
 
         private static void Validate(IEnumerable<int> parsed)
         {
-            var negative = parsed.Where(x => x < 0).ToList();
-            if (!negative.Any())
+            var negative = GetNegativeNumbers(parsed);
+            if (AreThereNegativeNumbers(negative))
             {
                 return;
             }
             throw new ArgumentException($"negatives not allowed: {negative.Aggregate("", (current, x) => $"{current}{x},").TrimEnd(',')}");
+        }
+
+        private static bool AreThereNegativeNumbers(IEnumerable<int> negative)
+        {
+            return !negative.Any();
+        }
+
+        private static List<int> GetNegativeNumbers(IEnumerable<int> parsed)
+        {
+            var negative = parsed.Where(x => x < 0).ToList();
+            return negative;
         }
 
         private static IEnumerable<int> Parse(string input)
