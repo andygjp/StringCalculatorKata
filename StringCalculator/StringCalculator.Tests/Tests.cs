@@ -1,5 +1,7 @@
 ﻿namespace StringCalculator.Tests
 {
+    using System;
+    using System.Linq;
     using FluentAssertions;
     using Xunit;
 
@@ -41,7 +43,8 @@
         public int Add(string input)
         {
             input = SanitiseInput(input);
-            return int.Parse(input);
+            var split = input.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            return split.Select(int.Parse).Sum();
         }
 
         private static string SanitiseInput(string input)
