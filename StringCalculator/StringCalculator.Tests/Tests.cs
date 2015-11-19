@@ -29,11 +29,17 @@
     {
         public int Add(string input)
         {
+            input = SanitiseInput(input);
+            return int.Parse(input);
+        }
+
+        private static string SanitiseInput(string input)
+        {
             if (IsInputBlank(input))
             {
                 input = "0";
             }
-            return int.Parse(input);
+            return input;
         }
 
         private static bool IsInputBlank(string input)
