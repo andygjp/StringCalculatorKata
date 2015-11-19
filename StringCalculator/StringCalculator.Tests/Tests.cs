@@ -83,7 +83,7 @@
 
         private static IEnumerable<string> Split(string input)
         {
-            return input.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            return input.Split(new[] {',', '\n'}, StringSplitOptions.RemoveEmptyEntries);
         }
 
         private static string SanitiseInput(string input)
