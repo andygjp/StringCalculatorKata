@@ -107,7 +107,7 @@
             {
                 return;
             }
-            throw new ArgumentException($"negatives not allowed: {negative.First()}");
+            throw new ArgumentException($"negatives not allowed: {negative.Aggregate("", (current, x) => $"{current}{x},").TrimEnd(',')}");
         }
 
         private static IEnumerable<int> Parse(string input)
