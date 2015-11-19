@@ -99,7 +99,23 @@
 
         private static char[] GetSeparators(string input)
         {
-            return new[] {',', '\n'};
+            var separator = GetCustomSeparator(input);
+            return new[] {separator, '\n'};
+        }
+
+        private static char GetCustomSeparator(string input)
+        {
+            var separator = ',';
+            if (IsSeparatorSpecified(input))
+            {
+                separator = input[2];
+            }
+            return separator;
+        }
+
+        private static bool IsSeparatorSpecified(string input)
+        {
+            return input.StartsWith("//") && input.Length > 2;
         }
 
         private static string SanitiseInput(string input)
