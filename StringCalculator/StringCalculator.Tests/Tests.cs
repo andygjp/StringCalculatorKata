@@ -107,7 +107,22 @@
             {
                 return;
             }
-            throw new ArgumentException($"negatives not allowed: {negative.Aggregate("", (current, x) => $"{current}{x},").TrimEnd(',')}");
+            ThrowException(negative);
+        }
+
+        private static void ThrowException(IEnumerable<int> negative)
+        {
+            throw new ArgumentException("negatives not allowed: " + JoinNumbers(negative));
+        }
+
+        private static string JoinNumbers(IEnumerable<int> negative)
+        {
+            return negative.Aggregate("", Concat).TrimEnd(',');
+        }
+
+        private static string Concat(string current, int x)
+        {
+            return $"{current}{x},";
         }
 
         private static bool AreThereNegativeNumbers(IEnumerable<int> negative)
@@ -117,14 +132,12 @@
 
         private static List<int> GetNegativeNumbers(IEnumerable<int> parsed)
         {
-            var negative = parsed.Where(x => x < 0).ToList();
-            return negative;
+            return parsed.Where(x => x < 0).ToList();
         }
 
         private static IEnumerable<int> Parse(string input)
         {
-            var split = Split(input);
-            return split.Select(int.Parse);
+            return Split(input).Select(int.Parse);
         }
 
         private static IEnumerable<string> Split(string input)
@@ -136,11 +149,7 @@
 
         private static string RemoveCustomSeparator(string input)
         {
-            if (IsSeparatorSpecified(input))
-            {
-                input = input.Substring(3);
-            }
-            return input;
+            return IsSeparatorSpecified(input) ? input.Substring(3) : input;
         }
 
         private static char[] GetSeparators(string input)
@@ -151,12 +160,7 @@
 
         private static char GetCustomSeparator(string input)
         {
-            var separator = ',';
-            if (IsSeparatorSpecified(input))
-            {
-                separator = input[2];
-            }
-            return separator;
+            return IsSeparatorSpecified(input) ? input[2] : ',';
         }
 
         private static bool IsSeparatorSpecified(string input)
