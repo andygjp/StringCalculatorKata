@@ -50,6 +50,17 @@
         }
     }
 
+    public class When_I_supply_many_numbers_that_are_separated_with_newline
+    {
+        [Fact]
+        public void It_should_sum_those_numbers()
+        {
+            var sut = new StringCalculator();
+            int actual = sut.Add("1\n2,3,4\n5,6,7,8");
+            actual.Should().Be(36);
+        }
+    }
+
     public class StringCalculator
     {
         public int Add(string input)
