@@ -1,6 +1,7 @@
 ﻿namespace StringCalculator.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using FluentAssertions;
     using Xunit;
@@ -43,17 +44,29 @@
         public int Add(string input)
         {
             input = SanitiseInput(input);
-            var split = input.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            return split.Select(int.Parse).Sum();
+            return Sum(input);
+        }
+
+        private static int Sum(string input)
+        {
+            var parsed = Parse(input);
+            return parsed.Sum();
+        }
+
+        private static IEnumerable<int> Parse(string input)
+        {
+            var split = Split(input);
+            return split.Select(int.Parse);
+        }
+
+        private static IEnumerable<string> Split(string input)
+        {
+            return input.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
         }
 
         private static string SanitiseInput(string input)
         {
-            if (IsInputBlank(input))
-            {
-                input = "0";
-            }
-            return input;
+            return IsInputBlank(input) ? "0" : input;
         }
 
         private static bool IsInputBlank(string input)
