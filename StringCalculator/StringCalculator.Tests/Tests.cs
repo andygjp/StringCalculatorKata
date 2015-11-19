@@ -61,6 +61,17 @@
         }
     }
 
+    public class When_I_supply_many_numbers_that_have_a_custom_separator
+    {
+        [Fact]
+        public void It_should_sum_those_numbers()
+        {
+            var sut = new StringCalculator();
+            int actual = sut.Add("//;\n1;2;3;4;5;6;7;8");
+            actual.Should().Be(36);
+        }
+    }
+
     public class StringCalculator
     {
         public int Add(string input)
