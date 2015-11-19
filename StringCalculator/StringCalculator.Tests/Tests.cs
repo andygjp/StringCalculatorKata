@@ -72,6 +72,17 @@
         }
     }
 
+    public class When_I_supply_input_that_contains_negative_numbers
+    {
+        [Theory]
+        [InlineData("-1", "negatives not allowed: -1")]
+        public void It_should_throw_an_exception(string input, string expectedMessage)
+        {
+            Action call = () => new StringCalculator().Add(input);
+            call.ShouldThrowExactly<ArgumentException>().WithMessage(expectedMessage);
+        }
+    }
+
     public class StringCalculator
     {
         public int Add(string input)
